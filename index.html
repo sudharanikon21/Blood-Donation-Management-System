@@ -1,0 +1,825 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blood Donation Management System</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <div class="logo">
+                <div class="logo-icon">
+                    <i class="fas fa-heartbeat"></i>
+                    <div class="blood-drops">
+                        <i class="fas fa-tint drop-1"></i>
+                        <i class="fas fa-tint drop-2"></i>
+                        <i class="fas fa-tint drop-3"></i>
+                    </div>
+                </div>
+                <h1>Blood Donation Management</h1>
+            </div>
+            <nav class="nav">
+                <button class="nav-btn active" data-section="dashboard">
+                    <i class="fas fa-tachometer-alt"></i> Dashboard
+                </button>
+                <button class="nav-btn" data-section="donors">
+                    <i class="fas fa-users"></i> Donors
+                </button>
+                <button class="nav-btn" data-section="inventory">
+                    <i class="fas fa-boxes"></i> Inventory
+                </button>
+                <button class="nav-btn" data-section="appointments">
+                    <i class="fas fa-calendar-alt"></i> Appointments
+                </button>
+                <button class="nav-btn" data-section="recipients">
+                    <i class="fas fa-user-injured"></i> Recipients
+                </button>
+                <button class="nav-btn" data-section="reports">
+                    <i class="fas fa-chart-bar"></i> Reports
+                </button>
+            </nav>
+        </header>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Dashboard Section -->
+            <section id="dashboard" class="section active">
+                <div class="section-header">
+                    <div class="section-title">
+                        <div class="section-icon dashboard-icon">
+                            <i class="fas fa-tachometer-alt"></i>
+                        </div>
+                        <div class="dashboard-title-content">
+                            <div>
+                                <h2>Dashboard</h2>
+                                <p>Overview of blood donation activities</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-users"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h3 id="total-donors">0</h3>
+                            <p>Total Donors</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-tint"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h3 id="total-units">0</h3>
+                            <p>Blood Units</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-calendar-check"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h3 id="upcoming-appointments">0</h3>
+                            <p>Upcoming Appointments</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-exclamation-triangle"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h3 id="low-stock">0</h3>
+                            <p>Low Stock Types</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-user-injured"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h3 id="total-recipients">0</h3>
+                            <p>Total Recipients</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-map-marker-alt"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h3 id="total-locations">0</h3>
+                            <p>Service Locations</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Alerts -->
+                <section class="alerts-section">
+                    <div class="section-header">
+                        <div class="section-title">
+                            <div class="section-icon">
+                                <i class="fas fa-exclamation-circle"></i>
+                            </div>
+                            <h3>Alerts</h3>
+                        </div>
+                    </div>
+                    <div id="alerts-list" class="alerts-list">
+                        <p class="no-data">No alerts. Inventory looks good.</p>
+                    </div>
+                </section>
+
+                <!-- Quick Actions -->
+                <section class="quick-actions">
+                    <button class="btn btn-primary" id="qa-register-donor">
+                        <i class="fas fa-user-plus"></i> Register Donor
+                    </button>
+                    <button class="btn btn-primary" id="qa-schedule-appointment">
+                        <i class="fas fa-calendar-plus"></i> Schedule Appointment
+                    </button>
+                    <button class="btn btn-primary" id="qa-view-reports">
+                        <i class="fas fa-chart-line"></i> View Reports
+                    </button>
+                </section>
+
+                <!-- Dashboard Table -->
+                <section class="dashboard-table">
+                    <div class="dashboard-table-header">
+                        <h3 id="dashboard-table-title">Recent Donors</h3>
+                        <div class="dashboard-table-controls">
+                            <label for="dashboard-table-type">Show</label>
+                            <select id="dashboard-table-type">
+                                <option value="donors" selected>Donors</option>
+                                <option value="inventory">Blood Units</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="table-container">
+                        <table class="data-table">
+                            <thead id="dashboard-table-thead"></thead>
+                            <tbody id="dashboard-table-tbody">
+                                <tr class="no-data">
+                                    <td>Loading...</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+
+                <!-- Blood Donation Logo Section -->
+                <div class="blood-logo-section">
+                    <div class="blood-logo-container">
+                        <div class="blood-logo">
+                            <i class="fas fa-heartbeat"></i>
+                        </div>
+                        <div class="blood-logo-text">
+                            <h2>Blood Donation</h2>
+                            <p>Save Lives, Give Blood</p>
+                        </div>
+                    </div>
+                    <div class="blood-stats-visual">
+                        <div class="blood-drop">
+                            <i class="fas fa-tint"></i>
+                            <span>Life</span>
+                        </div>
+                        <div class="blood-drop">
+                            <i class="fas fa-tint"></i>
+                            <span>Hope</span>
+                        </div>
+                        <div class="blood-drop">
+                            <i class="fas fa-tint"></i>
+                            <span>Care</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="recent-activity">
+                    <h3>Recent Activity</h3>
+                    <div id="activity-list" class="activity-list">
+                        <p class="no-data">No recent activity</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Donors Section -->
+            <section id="donors" class="section">
+                <div class="section-header">
+                    <div class="section-title">
+                        <div class="section-icon donor-icon">
+                            <i class="fas fa-users"></i>
+                        </div>
+                        <h2>Donor Management</h2>
+                    </div>
+                    <button class="btn btn-primary" id="add-donor-btn">
+                        <i class="fas fa-plus"></i> Add New Donor
+                    </button>
+                </div>
+
+                <!-- Add Donor Form -->
+                <div class="form-container" id="donor-form-container" style="display: none;">
+                    <form id="donor-form" class="form">
+                        <h3>Register New Donor</h3>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="donor-name">Full Name *</label>
+                                <input type="text" id="donor-name" name="name" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="donor-email">Email *</label>
+                                <input type="email" id="donor-email" name="email" required>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="donor-phone">Phone Number *</label>
+                                <input type="tel" id="donor-phone" name="phone" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="donor-age">Age *</label>
+                                <input type="number" id="donor-age" name="age" min="18" max="65" required>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="donor-blood-type">Blood Type *</label>
+                                <select id="donor-blood-type" name="bloodType" required>
+                                    <option value="">Select Blood Type</option>
+                                    <option value="A+">A+</option>
+                                    <option value="A-">A-</option>
+                                    <option value="B+">B+</option>
+                                    <option value="B-">B-</option>
+                                    <option value="AB+">AB+</option>
+                                    <option value="AB-">AB-</option>
+                                    <option value="O+">O+</option>
+                                    <option value="O-">O-</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="donor-weight">Weight (kg) *</label>
+                                <input type="number" id="donor-weight" name="weight" min="50" required>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="donor-address">Address</label>
+                            <textarea id="donor-address" name="address" rows="3"></textarea>
+                        </div>
+                        <div class="form-actions">
+                            <button type="submit" class="btn btn-primary">Register Donor</button>
+                            <button type="button" class="btn btn-secondary" id="cancel-donor">Cancel</button>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- Donor Search and List -->
+                <div class="search-container">
+                    <div class="search-box">
+                        <i class="fas fa-search"></i>
+                        <input type="text" id="donor-search" placeholder="Search donors by name, email, or blood type...">
+                    </div>
+                    <div class="filter-group">
+                        <select id="blood-type-filter">
+                            <option value="">All Blood Types</option>
+                            <option value="A+">A+</option>
+                            <option value="A-">A-</option>
+                            <option value="B+">B+</option>
+                            <option value="B-">B-</option>
+                            <option value="AB+">AB+</option>
+                            <option value="AB-">AB-</option>
+                            <option value="O+">O+</option>
+                            <option value="O-">O-</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="table-container">
+                    <table id="donors-table" class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Email</th>
+                                <th>Phone</th>
+                                <th>Blood Type</th>
+                                <th>Age</th>
+                                <th>Last Donation</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="donors-tbody">
+                            <tr class="no-data">
+                                <td colspan="7">No donors registered yet</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- Inventory Section -->
+            <section id="inventory" class="section">
+                <div class="section-header">
+                    <div class="section-title">
+                        <div class="section-icon inventory-icon">
+                            <i class="fas fa-boxes"></i>
+                        </div>
+                        <h2>Blood Inventory</h2>
+                    </div>
+                    <button class="btn btn-primary" id="add-inventory-btn">
+                        <i class="fas fa-plus"></i> Add Blood Unit
+                    </button>
+                </div>
+
+                <!-- Add Blood Unit Form -->
+                <div class="form-container" id="inventory-form-container" style="display: none;">
+                    <form id="inventory-form" class="form">
+                        <h3>Add Blood Unit</h3>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="blood-type">Blood Type *</label>
+                                <select id="blood-type" name="bloodType" required>
+                                    <option value="">Select Blood Type</option>
+                                    <option value="A+">A+</option>
+                                    <option value="A-">A-</option>
+                                    <option value="B+">B+</option>
+                                    <option value="B-">B-</option>
+                                    <option value="AB+">AB+</option>
+                                    <option value="AB-">AB-</option>
+                                    <option value="O+">O+</option>
+                                    <option value="O-">O-</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="donor-id">Donor ID</label>
+                                <input type="text" id="donor-id" name="donorId" placeholder="Optional">
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="collection-date">Collection Date *</label>
+                                <input type="date" id="collection-date" name="collectionDate" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="expiry-date">Expiry Date *</label>
+                                <input type="date" id="expiry-date" name="expiryDate" required>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="storage-location">Storage Location</label>
+                                <input type="text" id="storage-location" name="storageLocation" placeholder="e.g., Refrigerator A1">
+                            </div>
+                            <div class="form-group">
+                                <label for="status">Status *</label>
+                                <select id="status" name="status" required>
+                                    <option value="available">Available</option>
+                                    <option value="reserved">Reserved</option>
+                                    <option value="used">Used</option>
+                                    <option value="expired">Expired</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-actions">
+                            <button type="submit" class="btn btn-primary">Add Blood Unit</button>
+                            <button type="button" class="btn btn-secondary" id="cancel-inventory">Cancel</button>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- Inventory Overview -->
+                <div class="inventory-overview">
+                    <h3>Blood Type Inventory</h3>
+                    <div id="blood-type-stats" class="blood-type-grid">
+                        <!-- Blood type statistics will be populated here -->
+                    </div>
+                </div>
+
+                <div class="table-container">
+                    <table id="inventory-table" class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Unit ID</th>
+                                <th>Blood Type</th>
+                                <th>Collection Date</th>
+                                <th>Expiry Date</th>
+                                <th>Status</th>
+                                <th>Storage Location</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="inventory-tbody">
+                            <tr class="no-data">
+                                <td colspan="7">No blood units in inventory</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- Appointments Section -->
+            <section id="appointments" class="section">
+                <div class="section-header">
+                    <div class="section-title">
+                        <div class="section-icon appointment-icon">
+                            <i class="fas fa-calendar-alt"></i>
+                        </div>
+                        <h2>Appointment Scheduling</h2>
+                    </div>
+                    <button class="btn btn-primary" id="add-appointment-btn">
+                        <i class="fas fa-plus"></i> Schedule Appointment
+                    </button>
+                </div>
+
+                <!-- Schedule Appointment Form -->
+                <div class="form-container" id="appointment-form-container" style="display: none;">
+                    <form id="appointment-form" class="form">
+                        <h3>Schedule New Appointment</h3>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="appointment-donor">Donor *</label>
+                                <select id="appointment-donor" name="donorId" required>
+                                    <option value="">Select Donor</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="appointment-date">Date *</label>
+                                <input type="date" id="appointment-date" name="date" required>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="appointment-time">Time *</label>
+                                <input type="time" id="appointment-time" name="time" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="appointment-type">Appointment Type *</label>
+                                <select id="appointment-type" name="type" required>
+                                    <option value="donation">Blood Donation</option>
+                                    <option value="screening">Health Screening</option>
+                                    <option value="follow-up">Follow-up</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="appointment-notes">Notes</label>
+                            <textarea id="appointment-notes" name="notes" rows="3" placeholder="Additional notes or special requirements"></textarea>
+                        </div>
+                        <div class="form-actions">
+                            <button type="submit" class="btn btn-primary">Schedule Appointment</button>
+                            <button type="button" class="btn btn-secondary" id="cancel-appointment">Cancel</button>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- Calendar View -->
+                <div class="calendar-container">
+                    <div class="calendar-header">
+                        <button id="prev-month" class="btn btn-secondary">
+                            <i class="fas fa-chevron-left"></i>
+                        </button>
+                        <h3 id="current-month"></h3>
+                        <button id="next-month" class="btn btn-secondary">
+                            <i class="fas fa-chevron-right"></i>
+                        </button>
+                    </div>
+                    <div id="calendar-grid" class="calendar-grid">
+                        <!-- Calendar will be populated here -->
+                    </div>
+                </div>
+
+                <div class="table-container">
+                    <table id="appointments-table" class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th>Time</th>
+                                <th>Donor</th>
+                                <th>Type</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="appointments-tbody">
+                            <tr class="no-data">
+                                <td colspan="6">No appointments scheduled</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- Recipients Section -->
+            <section id="recipients" class="section">
+                <div class="section-header">
+                    <div class="section-title-with-logo">
+                        <div class="section-logo recipient-logo">
+                            <i class="fas fa-user-injured"></i>
+                        </div>
+                        <div>
+                            <h2>Recipient Management</h2>
+                            <p>Manage blood recipients and their medical needs</p>
+                        </div>
+                    </div>
+                    <button class="btn btn-primary" id="add-recipient-btn">
+                        <i class="fas fa-plus"></i> Add New Recipient
+                    </button>
+                </div>
+
+                <!-- Add Recipient Form -->
+                <div class="form-container" id="recipient-form-container" style="display: none;">
+                    <form id="recipient-form" class="form">
+                        <div class="form-header">
+                            <div class="form-icon">
+                                <i class="fas fa-user-injured"></i>
+                            </div>
+                            <h3>Register New Recipient</h3>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="recipient-name">Full Name *</label>
+                                <input type="text" id="recipient-name" name="name" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="recipient-email">Email *</label>
+                                <input type="email" id="recipient-email" name="email" required>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="recipient-phone">Phone Number *</label>
+                                <input type="tel" id="recipient-phone" name="phone" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="recipient-age">Age *</label>
+                                <input type="number" id="recipient-age" name="age" min="0" max="120" required>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="recipient-blood-type">Blood Type *</label>
+                                <select id="recipient-blood-type" name="bloodType" required>
+                                    <option value="">Select Blood Type</option>
+                                    <option value="A+">A+</option>
+                                    <option value="A-">A-</option>
+                                    <option value="B+">B+</option>
+                                    <option value="B-">B-</option>
+                                    <option value="AB+">AB+</option>
+                                    <option value="AB-">AB-</option>
+                                    <option value="O+">O+</option>
+                                    <option value="O-">O-</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="recipient-gender">Gender *</label>
+                                <select id="recipient-gender" name="gender" required>
+                                    <option value="">Select Gender</option>
+                                    <option value="Male">Male</option>
+                                    <option value="Female">Female</option>
+                                    <option value="Other">Other</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="recipient-location">Service Location *</label>
+                                <select id="recipient-location" name="location" required>
+                                    <option value="">Select Location</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="recipient-priority">Priority Level *</label>
+                                <select id="recipient-priority" name="priority" required>
+                                    <option value="">Select Priority</option>
+                                    <option value="Critical">Critical (Immediate)</option>
+                                    <option value="High">High (Within 24 hours)</option>
+                                    <option value="Medium">Medium (Within 3 days)</option>
+                                    <option value="Low">Low (Within 1 week)</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="recipient-medical-id">Medical Record ID</label>
+                                <input type="text" id="recipient-medical-id" name="medicalId" placeholder="Optional">
+                            </div>
+                            <div class="form-group">
+                                <label for="recipient-doctor">Attending Doctor</label>
+                                <input type="text" id="recipient-doctor" name="doctor" placeholder="Optional">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="recipient-address">Address</label>
+                            <textarea id="recipient-address" name="address" rows="3"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="recipient-medical-notes">Medical Notes</label>
+                            <textarea id="recipient-medical-notes" name="medicalNotes" rows="3" placeholder="Any relevant medical information"></textarea>
+                        </div>
+                        <div class="form-actions">
+                            <button type="submit" class="btn btn-primary">Register Recipient</button>
+                            <button type="button" class="btn btn-secondary" id="cancel-recipient">Cancel</button>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- Location Management -->
+                <div class="location-management">
+                    <div class="section-header">
+                        <div class="section-title-with-logo">
+                            <div class="section-logo location-logo">
+                                <i class="fas fa-map-marker-alt"></i>
+                            </div>
+                            <div>
+                                <h3>Service Locations</h3>
+                                <p>Manage hospitals, clinics, and blood banks</p>
+                            </div>
+                        </div>
+                        <button class="btn btn-primary" id="add-location-btn">
+                            <i class="fas fa-plus"></i> Add Location
+                        </button>
+                    </div>
+
+                    <!-- Add Location Form -->
+                    <div class="form-container" id="location-form-container" style="display: none;">
+                        <form id="location-form" class="form">
+                            <div class="form-header">
+                                <div class="form-icon">
+                                    <i class="fas fa-map-marker-alt"></i>
+                                </div>
+                                <h3>Add New Service Location</h3>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="location-name">Location Name *</label>
+                                    <input type="text" id="location-name" name="name" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="location-type">Location Type *</label>
+                                    <select id="location-type" name="type" required>
+                                        <option value="">Select Type</option>
+                                        <option value="Hospital">Hospital</option>
+                                        <option value="Clinic">Clinic</option>
+                                        <option value="Blood Bank">Blood Bank</option>
+                                        <option value="Emergency Center">Emergency Center</option>
+                                        <option value="Mobile Unit">Mobile Unit</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="location-address">Address *</label>
+                                    <textarea id="location-address" name="address" rows="2" required></textarea>
+                                </div>
+                                <div class="form-group">
+                                    <label for="location-city">City *</label>
+                                    <input type="text" id="location-city" name="city" required>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="location-state">State/Province *</label>
+                                    <input type="text" id="location-state" name="state" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="location-zip">ZIP/Postal Code</label>
+                                    <input type="text" id="location-zip" name="zip">
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="location-phone">Phone Number</label>
+                                    <input type="tel" id="location-phone" name="phone">
+                                </div>
+                                <div class="form-group">
+                                    <label for="location-capacity">Blood Storage Capacity</label>
+                                    <input type="number" id="location-capacity" name="capacity" min="0" placeholder="Number of units">
+                                </div>
+                            </div>
+                            <div class="form-actions">
+                                <button type="submit" class="btn btn-primary">Add Location</button>
+                                <button type="button" class="btn btn-secondary" id="cancel-location">Cancel</button>
+                            </div>
+                        </form>
+                    </div>
+
+                    <!-- Locations Grid -->
+                    <div id="locations-grid" class="locations-grid">
+                        <!-- Locations will be populated here -->
+                    </div>
+                </div>
+
+                <!-- Recipient Search and List -->
+                <div class="search-container">
+                    <div class="search-box">
+                        <i class="fas fa-search"></i>
+                        <input type="text" id="recipient-search" placeholder="Search recipients by name, email, or blood type...">
+                    </div>
+                    <div class="filter-group">
+                        <select id="recipient-blood-type-filter">
+                            <option value="">All Blood Types</option>
+                            <option value="A+">A+</option>
+                            <option value="A-">A-</option>
+                            <option value="B+">B+</option>
+                            <option value="B-">B-</option>
+                            <option value="AB+">AB+</option>
+                            <option value="AB-">AB-</option>
+                            <option value="O+">O+</option>
+                            <option value="O-">O-</option>
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <select id="recipient-priority-filter">
+                            <option value="">All Priorities</option>
+                            <option value="Critical">Critical</option>
+                            <option value="High">High</option>
+                            <option value="Medium">Medium</option>
+                            <option value="Low">Low</option>
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <select id="recipient-location-filter">
+                            <option value="">All Locations</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="table-container">
+                    <table id="recipients-table" class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Email</th>
+                                <th>Phone</th>
+                                <th>Blood Type</th>
+                                <th>Age</th>
+                                <th>Location</th>
+                                <th>Priority</th>
+                                <th>Registration Date</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="recipients-tbody">
+                            <tr class="no-data">
+                                <td colspan="9">No recipients registered yet</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- Reports Section -->
+            <section id="reports" class="section">
+                <div class="section-header">
+                    <div class="section-title">
+                        <div class="section-icon reports-icon">
+                            <i class="fas fa-chart-bar"></i>
+                        </div>
+                        <h2>Reports & Analytics</h2>
+                    </div>
+                </div>
+
+                <div class="reports-grid">
+                    <div class="report-card">
+                        <h3>Donation Statistics</h3>
+                        <div id="donation-stats" class="chart-container">
+                            <canvas id="donation-chart"></canvas>
+                        </div>
+                    </div>
+                    <div class="report-card">
+                        <h3>Blood Type Distribution</h3>
+                        <div id="blood-type-chart" class="chart-container">
+                            <canvas id="blood-type-pie-chart"></canvas>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="export-section">
+                    <h3>Export Data</h3>
+                    <div class="export-buttons">
+                        <button class="btn btn-primary" id="export-donors">
+                            <i class="fas fa-download"></i> Export Donors
+                        </button>
+                        <button class="btn btn-primary" id="export-inventory">
+                            <i class="fas fa-download"></i> Export Inventory
+                        </button>
+                        <button class="btn btn-primary" id="export-appointments">
+                            <i class="fas fa-download"></i> Export Appointments
+                        </button>
+                        <button class="btn btn-primary" id="export-recipients">
+                            <i class="fas fa-download"></i> Export Recipients
+                        </button>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Success/Error Messages -->
+    <div id="message-container" class="message-container"></div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
