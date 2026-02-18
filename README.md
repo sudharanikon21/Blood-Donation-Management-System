@@ -1,7 +1,8 @@
 🩸 Blood Donation Management System — Connecting Lives Through Technology
 
 🌐 Live Project:
-👉 (Add your GitHub Pages link here if deployed)
+
+👉 
 
 💡 About the Project
 
@@ -92,9 +93,13 @@ Font Awesome -	UI icons
 🗂️ Folder Structure
 blood-donation/
 
+|
 ├── index.html
+
 ├── styles.css
+
 ├── script.js
+
 └── README.md
 
 🚀 How to Run Locally
@@ -113,14 +118,19 @@ No installation required. No backend required.
 🧩 Future Enhancements
 
 🔐 Add authentication system
+
 🗄️ Connect to real-time database (Firebase / MongoDB)
+
 📧 Email notifications for appointments
+
 📱 Advanced mobile optimization
+
 👨‍⚕️ Role-based admin & hospital dashboards
 
 👩‍💻 Developer
 
  Venkata Sudha Rani Konakalla
+ 
 🎓 B.Tech 3rd Year Student | Aspiring Software Engineer | Frontend Developer
 
 🪪 License
@@ -128,3 +138,4 @@ No installation required. No backend required.
 This project is licensed under the MIT License — see the LICENSE file for details.
 
 💖 Crafted with compassion, powered by technology — committed to saving lives, one drop at a time.
+
