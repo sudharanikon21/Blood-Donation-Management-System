@@ -2,9 +2,10 @@
 
 🌐 Live Project:
 
-👉 
+👉 https://sudharanikon21.github.io/Blood-Donation-Management-System/
 
-💡 About the Project
+
+💡 About the Project:
 
 Blood Donation Management System is a comprehensive web-based frontend application designed to streamline donor registration, blood inventory tracking, appointment scheduling, and recipient management.
 
@@ -12,7 +13,7 @@ This system ensures better coordination between donors, recipients, and healthca
 
 Built as a structured and scalable frontend solution using modern web technologies.
 
-✨ Features
+✨ Features:
 📊 Smart Dashboard
 
 Real-time statistics overview
@@ -81,16 +82,22 @@ CSV export functionality
 
 Interactive Chart.js integration
 
-🛠️ Technologies Used
+🛠️ Technologies Used:
+
 Technology -	Purpose
+
 HTML5	- Structure & layout
+
 CSS3 - Styling & responsive design
+
 JavaScript (ES6) - 	Dynamic interaction & data handling
+
 Chart.js	 - Data visualization
+
 Font Awesome -	UI icons
 
 
-🗂️ Folder Structure
+🗂️ Folder Structure:
 blood-donation/
 
 |
@@ -104,18 +111,20 @@ blood-donation/
 
 🚀 How to Run Locally
 
-Clone the repository
+Clone the repository:
 
-git clone
+git clone https://github.com/sudharanikon21/Blood-Donation-Management-System.git
 
 
-Open the folder
+Open the folder:
 
-Open index.html in your browser
+cd Blood Donation Management System
+
+Open index.html in your browser.
 
 No installation required. No backend required.
 
-🧩 Future Enhancements
+🧩 Future Enhancements:
 
 🔐 Add authentication system
 
@@ -138,4 +147,5 @@ No installation required. No backend required.
 This project is licensed under the MIT License — see the LICENSE file for details.
 
 💖 Crafted with compassion, powered by technology — committed to saving lives, one drop at a time.
+
 
